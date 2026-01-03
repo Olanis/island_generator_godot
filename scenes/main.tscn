@@ -1,3 +1,58 @@
-[gd_scene format=3 uid="uid://cxsd6rf4qg3ve"]
+[gd_scene load_steps=9 format=3 uid="uid://cxsd6rf4qg3ve"]
+
+[ext_resource type="Shader" uid="uid://c5qmdyvwp583y" path="res://scenes/main.gdshader" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://bl8uwsha1ppoy" path="res://scenes/water_volume.gd" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://b55p1takpjsg0" path="res://scenes/sea_surface.gd" id="2_sugp2"]
+[ext_resource type="Script" uid="uid://bejs6opfk7ocl" path="res://scenes/ui.gd" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://bd3oejpq3jwui" path="res://scenes/camera_pivot.gd" id="5_tbgi4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0wfyh"]
+render_priority = 0
+shader = ExtResource("1_o5qli")
+shader_parameter/wave_height = 0.5
+shader_parameter/wave_speed = 1.0
+shader_parameter/time = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_sugp2"]
+material = SubResource("ShaderMaterial_0wfyh")
+size = Vector2(5000, 5000)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jyhfs"]
+size = Vector3(5000, 5000, 50)
 
 [node name="Root" type="Node3D"]
+
+[node name="Sea" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -65.15054, 0)
+
+[node name="SeaSurface" type="MeshInstance3D" parent="Sea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 36.498497, 0)
+mesh = SubResource("PlaneMesh_sugp2")
+skeleton = NodePath("../../DirectionalLight3D")
+script = ExtResource("2_sugp2")
+
+[node name="WaterVolume" type="Area3D" parent="Sea"]
+script = ExtResource("2_0wfyh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sea/WaterVolume"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -25, 0)
+shape = SubResource("BoxShape3D_jyhfs")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9067204, 0.42173225, 0, -0.42173225, 0.9067204, 0, 337.17435, 0)
+light_energy = 1.623
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("4_jyhfs")
+
+[node name="GenerateButton" type="Button" parent="UI"]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Insel generieren"
+
+[node name="CameraPivot" type="Node3D" parent="."]
+script = ExtResource("5_tbgi4")
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.8857908, 0.46408468, 0, -0.46408468, 0.8857908, 0, 188.26648, 288.3902)
+current = true
