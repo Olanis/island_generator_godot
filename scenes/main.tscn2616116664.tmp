@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxsd6rf4qg3ve"]
+
+[ext_resource type="Script" uid="uid://bejs6opfk7ocl" path="res://scenes/ui.gd" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://bd3oejpq3jwui" path="res://scenes/camera_pivot.gd" id="5_tbgi4"]
+
+[node name="Root" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9067204, 0.42173225, 0, -0.42173225, 0.9067204, 0, 337.17435, 0)
+light_energy = 1.623
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("4_jyhfs")
+
+[node name="GenerateButton" type="Button" parent="UI"]
+offset_left = 11.0
+offset_top = 13.0
+offset_right = 145.0
+offset_bottom = 44.0
+text = "Insel generieren"
+
+[node name="SpielenButton" type="Button" parent="UI"]
+offset_left = 11.0
+offset_top = 50.0
+offset_right = 145.0
+offset_bottom = 81.0
+text = "Spielen"
+
+[node name="CameraPivot" type="Node3D" parent="."]
+script = ExtResource("5_tbgi4")
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.8857908, 0.46408468, 0, -0.46408468, 0.8857908, 0, 188.26648, 288.3902)
+current = true
